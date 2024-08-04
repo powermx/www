@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Price Checker</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        body {
+            background: linear-gradient(to bottom, #000000, #222222);
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+			overflow-y: auto;
+        }
+        .header-image {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .username {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #ffcc00;
+        }
+        .crypto {
+            margin: 10px;
+            font-size: 0.9em;
+        }
+        .price {
+            color: #ffcc00;
+        }
+        .calculator {
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        .calculator input, .calculator select, .calculator button {
+            padding: 10px;
+            margin: 5px;
+            width: calc(100% - 22px);
+            max-width: 300px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background-color: #000;
+            color: #ffcc00;
+        }
+        .calculator input::placeholder, .calculator select {
+            color: #ffffff;
+        }
+		.gecko {
+		font-size: 10px;
+		background: #222222;
+		margin-top: 10px;
+		padding: 10px;
+		color: #cccccc;
+		border-radius: 10px;
+		}
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 10px;
+            color: #ffcc00;
+            font-size: 1.2em;
+            text-align: center;
+            max-width: 300px;
+            width: 100%;
+        }
+        .close-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #ffcc00;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+		.crypto-prices {
+		text-align: center;
+		}
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(to bottom, #000000, #222222);
+                color: white;
+            }
+            .calculator input, .calculator select, .calculator button {
+                background-color: #000;
+                color: #ffcc00;
+                border: 1px solid #444;
+            }
+            .result {
+                background-color: #333;
+                color: #ffcc00;
+            }
+        }
+    </style>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="username" id="username"></div>
+    <img src="https://raw.githubusercontent.com/powermx/dl/master/crypto_coin.png" alt="Crypto Coin" class="header-image">
+    <div id="crypto-prices"></div>
+    <div class="calculator">
+        <input type="number" id="usd-amount" placeholder="Enter amount in USD">
+        <select id="crypto-select">
+            <option value="bitcoin">Bitcoin</option>
+            <option value="litecoin">Litecoin</option>
+            <option value="ethereum">Ethereum</option>
+            <option value="ripple">Ripple</option>
+            <option value="tron">Tron</option>
+        </select>
+        <button onclick="calculateCrypto()">Calculate</button>
+    </div>
+    <div id="result" class="result">Result</div>
+	<div id="gecko" class="gecko">Results are from CoinGecko API</div>
+    <button class="close-button" onclick="closeWebApp()">Close</button>
+    
+    <script src="script.js"></script>
+    <script>
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand(); // Expande la WebApp a toda la altura disponible
+        const user = Telegram.WebApp.initDataUnsafe.user;
+        if (user) {
+            const usernameElement = document.getElementById('username');
+            usernameElement.innerText = `Hello: ${user.first_name} ${user.last_name} ID: ${user.id}`;
+        }
+    </script>
+</body>
+</html>
