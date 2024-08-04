@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #111111;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+			line-height: 1.05;
+        }
+        .player-container {
+            text-align: center;
+            background-color: #333333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .header-image {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+.subtitle {
+    color: #f0a500;
+    font-size: 16px;
+    background-color: #222222;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    line-height: 1.05;
+    white-space: pre-line; /* Preserve line breaks from the text file */
+}
+
+.subtitle h1 {
+    color: #f0a500;
+    font-size: 20px;
+    text-align: center; /* Centra el h1 */
+}
+
+.subtitle h2 {
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 1.05;
+    text-align: center; /* Centra el h2 */
+}
+
+.subtitle h3 {
+    color: #ffcc00;
+    background-color: #444444;
+    font-size: 13px;
+    padding: 10px 20px;
+    border: 2px solid #ffcc00;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    margin: 0 auto; /* Centrará el h3 */
+}
+
+        .audio-player {
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <img src="https://raw.githubusercontent.com/powermx/dl/master/vortex.png" alt="Header Image" class="header-image">
+        <div class="subtitle" id="subtitle">
+            <h1>🎧 Radio Vortex</h1><br><br>
+            <h2>🔸Monday 8 PM - Podcast</h2><br>
+            <h3>📺Youtube: @powermx</h3></div>
+        <audio id="audio-player" class="audio-player" src="https://amazon.powermx.org:443/;stream.mp3" autoplay type="audio/mp3" controls="controls"></audio>
+    </div>
+</body>
+</html>
