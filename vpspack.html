@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VpsPack - PowerMX</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <style>
+    body,h1 {font-family: "Raleway", sans-serif}
+    body, html {height: 100%; margin: 0;}
+    .bgimg {
+      background-image: url('https://raw.githubusercontent.com/powermx/dl/master/pitchbg.png');
+      min-height: 100%;
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .username {
+      color: white;
+      font-size: 12px;
+      font-weight: normal;
+      padding-left: 10px;
+      padding-top: 5px;
+    }
+    .button-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .button {
+      margin: 10px;
+      padding: 15px 25px;
+      font-size: 18px;
+      color: white;
+      background-color: black;
+      border: none;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #444;
+    }
+    .iframe-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    iframe {
+      width: 100%;
+      height: 700px;
+      border: none;
+    }
+  </style>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+  <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+    <div class="w3-display-topleft w3-padding-large w3-xlarge">
+      VpsPack
+      <div class="username" id="username"></div>
+    </div>
+    <div class="iframe-container">
+      <iframe src="https://www.powermx.ltd/p/vpspack.html"></iframe>
+    </div>
+    <div class="w3-display-bottomleft w3-padding-large">
+      PowerMX <a href="http://www.powermx.ltd" target="_blank">@PwrMX</a> | <a href="https://t.me/vpnmx" target="_blank">@VpnMX</a>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button class="button" id="closeButton">Cerrar</button>
+  </div>
+
+  <script>
+    window.Telegram.WebApp.ready();
+
+    document.getElementById('closeButton').addEventListener('click', () => {
+      window.Telegram.WebApp.close();
+    });
+
+    // Configura el botón de "Regresar" de Telegram Web Apps
+    Telegram.WebApp.BackButton.show();
+    Telegram.WebApp.BackButton.onClick(() => {
+      window.history.back();
+    });
+
+    // Obtener información del usuario
+    const user = Telegram.WebApp.initDataUnsafe.user;
+    if (user) {
+      const usernameElement = document.getElementById('username');
+      usernameElement.innerText = `Hola: ${user.first_name} ${user.last_name} ID: ${user.id}`;
+    }
+  </script>
+</body>
+</html>
