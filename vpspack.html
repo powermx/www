@@ -77,7 +77,7 @@
 
   <script>
     window.Telegram.WebApp.ready();
-
+    window.Telegram.WebApp.expand();
     document.getElementById('closeButton').addEventListener('click', () => {
       window.Telegram.WebApp.close();
     });
@@ -94,8 +94,6 @@
       const usernameElement = document.getElementById('username');
       usernameElement.innerText = `Hola: ${user.first_name} ${user.last_name} ID: ${user.id}`;
     }
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
   </script>
 </body>
 </html>
