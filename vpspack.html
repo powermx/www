@@ -41,8 +41,8 @@
             margin-bottom: 20px;
             font-size: 1.1em;
             line-height: 1.6;
-            text-align: justify; /* Asegura que el texto esté justificado */
-            hyphens: auto; /* Habilita el guion automático en palabras largas */
+            text-align: justify; 
+            hyphens: auto; 
             word-break: break-word;
             color: #cccccc;
         }
@@ -57,6 +57,22 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+        }
+       .description a {
+            color: #ffcc00;
+            text-decoration: none; 
+        }
+        .description a:visited {
+            color: #cccccc; 
+        }
+
+        .description a:active {
+            color: #e6b800; 
+        }
+
+        .description a:hover {
+            color: #ffd700;
+            text-decoration: underline;
         }
         .close-button:hover {
             background: #ffaa00;
@@ -74,12 +90,10 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <!-- Contenedor de la imagen con efecto blur -->
     <div class="image-container">
         <img src="https://raw.githubusercontent.com/powermx/dl/master/vpspack.png" alt="VPSPack">
     </div>
 
-    <!-- Descripción del script -->
     <div class="description">
         <strong class="highlight">VPSPack</strong> es un script administrativo para VPS o servidores dedicados 
         basados en los sistemas operativos <strong class="highlight">Linux Ubuntu</strong> o <strong class="highlight">Debian</strong>, 
@@ -99,23 +113,22 @@
     </div>
 
     <div class="description">
-        Para más información, contacta con <a href="tg://resolve?domain=PowerMX">@PowerMX</a>.
+        Para más información, contacta con <a href="https://t.me/PowerMX">@PowerMX</a>.
     </div>
 
-    <!-- Botón de cerrar la web app -->
+
     <button class="close-button" onclick="closeWebApp()">Cerrar</button>
     
     <script>
         function closeWebApp() {
             if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-                Telegram.WebApp.close(); // Cierra la WebApp de Telegram
+                Telegram.WebApp.close(); 
             } else {
                 console.error('No se puede cerrar la WebApp fuera de Telegram');
                 alert('La función de cerrar solo está disponible dentro de Telegram.');
             }
         }
 
-        // Espera a que la WebApp esté lista
         if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
             Telegram.WebApp.ready();
         }
