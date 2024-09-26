@@ -18,7 +18,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100vh;
             box-sizing: border-box;
             overflow-y: auto;
@@ -33,23 +33,13 @@
         .image-container img {
             width: 100%;
             border-radius: 10px;
-            filter: blur(4px);
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-        .image-container img.foreground {
-            filter: none;
-            z-index: 2;
             position: relative;
         }
         .description {
             margin-bottom: 20px;
             font-size: 1.1em;
             line-height: 1.6;
-            text-align: justify;
-            text-justify: inter-word;
+            text-align: justify; /* Asegura que el texto esté justificado */
             color: #cccccc;
         }
         .highlight {
@@ -81,8 +71,7 @@
 <body>
     <!-- Contenedor de la imagen con efecto blur -->
     <div class="image-container">
-        <img src="https://raw.githubusercontent.com/powermx/dl/refs/heads/master/vpspack.png" alt="VPSPack" class="background">
-        <img src="https://raw.githubusercontent.com/powermx/dl/refs/heads/master/vpspack.png" alt="VPSPack" class="foreground">
+        <img src="https://raw.githubusercontent.com/powermx/dl/master/vpspack.png" alt="VPSPack">
     </div>
 
     <!-- Descripción del script -->
@@ -102,8 +91,7 @@
 
     <!-- Contenedor de la imagen inferior con efecto blur -->
     <div class="image-container">
-        <img src="https://raw.githubusercontent.com/powermx/dl/refs/heads/master/vpspack_paquetes.png" alt="Paquetes VPSPack" class="background">
-        <img src="https://raw.githubusercontent.com/powermx/dl/refs/heads/master/vpspack_paquetes.png" alt="Paquetes VPSPack" class="foreground">
+        <img src="https://raw.githubusercontent.com/powermx/dl/master/vpspack_paquetes.png" alt="Paquetes VPSPack">
     </div>
 
     <!-- Botón de cerrar la web app -->
@@ -111,15 +99,18 @@
     
     <script>
         function closeWebApp() {
-            if (window.Telegram && Telegram.WebApp) {
+            if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
                 Telegram.WebApp.close(); // Cierra la WebApp de Telegram
             } else {
-                alert('No se puede cerrar la WebApp fuera de Telegram');
+                console.error('No se puede cerrar la WebApp fuera de Telegram');
+                alert('La función de cerrar solo está disponible dentro de Telegram.');
             }
         }
 
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand(); // Expande la WebApp a toda la altura disponible
+        // Espera a que la WebApp esté lista
+        if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+            Telegram.WebApp.ready();
+        }
     </script>
 </body>
 </html>
