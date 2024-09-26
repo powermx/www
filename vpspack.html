@@ -23,18 +23,33 @@
             box-sizing: border-box;
             overflow-y: auto;
             padding: 20px;
-            text-align: center;
         }
-        .header-image, .footer-image {
+        .image-container {
             width: 100%;
             max-width: 400px;
-            border-radius: 10px;
             margin-bottom: 20px;
+            position: relative;
+        }
+        .image-container img {
+            width: 100%;
+            border-radius: 10px;
+            filter: blur(4px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .image-container img.foreground {
+            filter: none;
+            z-index: 2;
+            position: relative;
         }
         .description {
             margin-bottom: 20px;
             font-size: 1.1em;
-            line-height: 1.5;
+            line-height: 1.6;
+            text-align: justify;
+            text-justify: inter-word;
             color: #cccccc;
         }
         .highlight {
@@ -49,6 +64,9 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .close-button:hover {
+            background: #ffaa00;
+        }
         @media (prefers-color-scheme: dark) {
             body {
                 background: linear-gradient(to bottom, #000000, #222222);
@@ -61,8 +79,13 @@
     </style>
 </head>
 <body>
-    <img src="https://raw.githubusercontent.com/powermx/dl/refs/heads/master/vpspack.png" alt="VPSPack" class="header-image">
-    
+    <!-- Contenedor de la imagen con efecto blur -->
+    <div class="image-container">
+        <img src="https://raw.githubusercontent.com/powermx/dl/refs/heads/master/vpspack.png" alt="VPSPack" class="background">
+        <img src="https://raw.githubusercontent.com/powermx/dl/refs/heads/master/vpspack.png" alt="VPSPack" class="foreground">
+    </div>
+
+    <!-- Descripción del script -->
     <div class="description">
         <strong class="highlight">VPSPack</strong> es un script administrativo para VPS o servidores dedicados 
         basados en los sistemas operativos <strong class="highlight">Linux Ubuntu</strong> o <strong class="highlight">Debian</strong>, 
@@ -77,15 +100,24 @@
         y haciendo más simple la instalación de proxies y servicios para VPN.
     </div>
 
-    <img src="https://raw.githubusercontent.com/powermx/dl/refs/heads/master/vpspack_paquetes.png" alt="Paquetes VPSPack" class="footer-image">
-    
+    <!-- Contenedor de la imagen inferior con efecto blur -->
+    <div class="image-container">
+        <img src="https://raw.githubusercontent.com/powermx/dl/refs/heads/master/vpspack_paquetes.png" alt="Paquetes VPSPack" class="background">
+        <img src="https://raw.githubusercontent.com/powermx/dl/refs/heads/master/vpspack_paquetes.png" alt="Paquetes VPSPack" class="foreground">
+    </div>
+
+    <!-- Botón de cerrar la web app -->
     <button class="close-button" onclick="closeWebApp()">Cerrar</button>
     
     <script>
         function closeWebApp() {
-            Telegram.WebApp.close();
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.close(); // Cierra la WebApp de Telegram
+            } else {
+                alert('No se puede cerrar la WebApp fuera de Telegram');
+            }
         }
-        
+
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand(); // Expande la WebApp a toda la altura disponible
     </script>
