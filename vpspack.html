@@ -34,6 +34,7 @@
         .image-container img {
             width: 100%;
             border-radius: 10px;
+            box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2), 0 0 15px 5px rgba(128, 128, 128, 0.5);
             position: relative;
         }
         .description {
@@ -41,6 +42,8 @@
             font-size: 1.1em;
             line-height: 1.6;
             text-align: justify; /* Asegura que el texto esté justificado */
+            hyphens: auto; /* Habilita el guion automático en palabras largas */
+            word-break: break-word;
             color: #cccccc;
         }
         .highlight {
