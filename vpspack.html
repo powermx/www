@@ -1,111 +1,175 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VPSPack - Script Administrativo para VPS</title>
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        body {
-            background: linear-gradient(to bottom, #000000, #222222);
-            color: white;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            box-sizing: border-box;
-            overflow-y: auto;
-            padding: 20px;
-        }
-        .image-container {
-            width: 100%;
-            max-width: 400px;
-            margin-top:10px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .image-container img {
-            width: 100%;
-            border-radius: 10px;
-            box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2), 0 0 15px 5px rgba(128, 128, 128, 0.5);
-            position: relative;
-        }
-        .description {
-            margin-bottom: 20px;
-            font-size: 1.1em;
-            line-height: 1.6;
-            text-align: justify; 
-            hyphens: auto; 
-            word-break: break-word;
-            color: #cccccc;
-        }
-        .highlight {
-            color: #ffcc00;
-        }
-        .close-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #ffcc00;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-       .description a {
-            color: #ffcc00;
-            text-decoration: none; 
-        }
-        .description a:visited {
-            color: #cccccc; 
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VPSPack - Script Administrativo para VPS</title>
 
-        .description a:active {
-            color: #e6b800; 
-        }
+<style>
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        .description a:hover {
-            color: #ffd700;
-            text-decoration: underline;
-        }
-        .close-button:hover {
-            background: #ffaa00;
-        }
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: linear-gradient(to bottom, #000000, #222222);
-                color: white;
-            }
-            .highlight {
-                color: #ffcc00;
-            }
-        }
-    </style>
+/* BASE */
+html, body {
+    height: 100%;
+}
+
+body {
+    background: linear-gradient(to bottom, #000000, #222222);
+    color: white;
+    font-family: Arial, sans-serif;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* CONTENIDO ENCIMA DEL FONDO */
+body > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* FONDO ANIMADO */
+.lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.lines .line {
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+.lines .line::after {
+    content: "";
+    position: absolute;
+    height: 20vh;
+    width: 100%;
+    top: -50%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), #ffffff 80%);
+    animation: run 8s infinite cubic-bezier(0.4, 0.26, 0, 0.97);
+}
+
+.lines .line:nth-child(1) { margin-left: -30%; }
+.lines .line:nth-child(2) { margin-left: 0%; }
+.lines .line:nth-child(3) { margin-left: 30%; }
+
+.lines .line:nth-child(1)::after { animation-delay: 1.5s; }
+.lines .line:nth-child(2)::after { animation-delay: 0s; }
+.lines .line:nth-child(3)::after { animation-delay: 2.5s; }
+
+@keyframes run {
+    0% { top: -50%; }
+    100% { top: 110%; }
+}
+
+/* CONTENIDO */
+.container {
+    max-width: 500px;
+    margin: auto;
+}
+
+/* IMÁGENES */
+.image-container {
+    width: 100%;
+    margin: 15px 0;
+}
+
+.image-container img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+/* TEXTO */
+.description {
+    margin-bottom: 20px;
+    font-size: 1.05em;
+    line-height: 1.6;
+    text-align: justify;
+    color: #cccccc;
+}
+
+.highlight {
+    color: #ffcc00;
+}
+
+/* LINKS */
+.description a {
+    color: #ffcc00;
+    text-decoration: none;
+}
+
+.description a:hover {
+    color: #ffd700;
+    text-decoration: underline;
+}
+
+/* BOTÓN */
+.close-button {
+    width: 100%;
+    padding: 12px;
+    background: #ffcc00;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: 0.3s;
+}
+
+.close-button:hover {
+    background: #ffaa00;
+}
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(to bottom, #000000, #222222);
+    }
+}
+</style>
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
+
 <body>
+
+<!-- FONDO -->
+<div class="lines">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+</div>
+
+<div class="container">
+
     <div class="image-container">
         <img src="https://raw.githubusercontent.com/powermx/dl/master/vpspack.png" alt="VPSPack">
     </div>
 
     <div class="description">
         <strong class="highlight">VPSPack</strong> es un script administrativo para VPS o servidores dedicados 
-        basados en los sistemas operativos <strong class="highlight">Linux Ubuntu</strong> o <strong class="highlight">Debian</strong>, 
-        que utiliza comandos sencillos en <strong class="highlight">Bash</strong>, <strong class="highlight">Python</strong> y <strong class="highlight">Perl</strong>.
-        Ha evolucionado con el tiempo para satisfacer las necesidades de inyección de datos, 
-        añadiendo nuevas funciones al script original.
+        basados en <strong class="highlight">Linux Ubuntu</strong> y <strong class="highlight">Debian</strong>, 
+        que utiliza <strong class="highlight">Bash</strong>, <strong class="highlight">Python</strong> y <strong class="highlight">Perl</strong>.
     </div>
 
     <div class="description">
-        El script incluye diferentes tipos de administración e instalación de paquetes y usuarios, 
-        facilitando la gestión del VPS con instalaciones guiadas, 
-        y haciendo más simple la instalación de proxies y servicios para VPN.
+        Incluye herramientas para administración, instalación de paquetes y gestión de usuarios, 
+        facilitando la configuración de servicios como proxies y VPN.
     </div>
 
     <div class="image-container">
@@ -113,27 +177,28 @@
     </div>
 
     <div class="description">
-        Para más información, contacta con <a href="https://t.me/PowerMX">@PowerMX</a>.
+        Para más información, contacta con 
+        <a href="https://t.me/PowerMX">@PowerMX</a>.
     </div>
 
-
     <button class="close-button" onclick="closeWebApp()">Cerrar</button>
-    
-    <script>
-        function closeWebApp() {
-            if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-                Telegram.WebApp.close(); 
-            } else {
-                console.error('No se puede cerrar la WebApp fuera de Telegram');
-                alert('La función de cerrar solo está disponible dentro de Telegram.');
-            }
-        }
 
-        if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-            Telegram.WebApp.ready();
-        }
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-    </script>
+</div>
+
+<script>
+function closeWebApp() {
+    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+        Telegram.WebApp.close();
+    } else {
+        alert('Esta función solo funciona dentro de Telegram.');
+    }
+}
+
+if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
+}
+</script>
+
 </body>
 </html>
