@@ -14,20 +14,19 @@
 
 body {
     position: relative;
-    min-height: 100vh;
     background: linear-gradient(to bottom, #000000, #222222);
     color: white;
     font-family: Arial, sans-serif;
     padding: 20px;
 }
 
-/* CONTENIDO */
+/* CONTENIDO ENCIMA */
 body > * {
     position: relative;
     z-index: 2;
 }
 
-/* FONDO */
+/* FONDO AJUSTADO */
 .lines {
     position: absolute;
     top: 0;
@@ -97,7 +96,8 @@ body > * {
 
 <div class="lines" id="lines"></div>
 
-<div class="container">
+<div class="container" id="content">
+
     <div class="image-container">
         <img src="https://raw.githubusercontent.com/powermx/dl/master/vpspack.png">
     </div>
@@ -115,38 +115,45 @@ body > * {
     </div>
 
     <button class="close-button" onclick="closeWebApp()">Cerrar</button>
+
 </div>
 
 <script>
 const container = document.getElementById("lines");
-const totalLines = 25;
+const content = document.getElementById("content");
+const totalLines = 20;
 
 let lines = [];
+
+/* AJUSTAR ALTURA EXACTA */
+function setHeight() {
+    const height = content.offsetHeight + 40; // pequeño margen
+    container.style.height = height + "px";
+}
 
 /* CREAR LÍNEAS */
 function createLines() {
     container.innerHTML = "";
     lines = [];
 
-    const docHeight = document.body.scrollHeight;
-    container.style.height = docHeight + "px";
+    const height = container.offsetHeight;
 
     for (let i = 0; i < totalLines; i++) {
         const line = document.createElement("div");
         line.classList.add("line");
 
         const left = Math.random() * 100;
-        const speed = 0.5 + Math.random() * 2;
-        const drift = (Math.random() - 0.5) * 80;
+        const speed = 0.5 + Math.random() * 1.5;
+        const drift = (Math.random() - 0.5) * 60;
 
         line.style.left = left + "%";
-        line.style.height = docHeight + "px";
+        line.style.height = height + "px";
 
         container.appendChild(line);
 
         lines.push({
             el: line,
-            y: Math.random() * docHeight,
+            y: Math.random() * height,
             speed,
             drift
         });
@@ -155,12 +162,12 @@ function createLines() {
 
 /* ANIMACIÓN */
 function animate() {
-    const docHeight = document.body.scrollHeight;
+    const height = container.offsetHeight;
 
     lines.forEach(line => {
         line.y += line.speed;
 
-        if (line.y > docHeight) {
+        if (line.y > height) {
             line.y = -100;
             line.el.style.left = Math.random() * 100 + "%";
         }
@@ -173,25 +180,17 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-/* PARALLAX REAL */
-window.addEventListener("scroll", () => {
-    const scroll = window.scrollY;
-    container.style.transform = `translateY(${scroll * 0.15}px)`;
-});
-
-/* REGENERAR SI CRECE EL CONTENIDO */
-let lastHeight = document.body.scrollHeight;
-
-setInterval(() => {
-    if (document.body.scrollHeight !== lastHeight) {
-        lastHeight = document.body.scrollHeight;
-        createLines();
-    }
-}, 500);
-
 /* INIT */
-createLines();
-animate();
+function init() {
+    setHeight();
+    createLines();
+    animate();
+}
+
+/* REAJUSTE SOLO SI CAMBIA EL TAMAÑO */
+window.addEventListener("resize", init);
+
+init();
 
 /* TELEGRAM */
 function closeWebApp() {
