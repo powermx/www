@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VPSPack - Script Administrativo para VPS</title>
+<title>VPSPack</title>
 
 <style>
 * {
@@ -18,7 +18,6 @@ body {
     background: linear-gradient(to bottom, #000000, #222222);
     color: white;
     font-family: Arial, sans-serif;
-    overflow-y: auto;
     padding: 20px;
 }
 
@@ -34,7 +33,6 @@ body > * {
     top: 0;
     left: 0;
     width: 100%;
-    height: 200%;
     pointer-events: none;
     z-index: 1;
     overflow: hidden;
@@ -44,7 +42,6 @@ body > * {
 .line {
     position: absolute;
     width: 1px;
-    height: 120%;
     background: rgba(255,255,255,0.08);
 }
 
@@ -52,13 +49,11 @@ body > * {
     content: "";
     position: absolute;
     width: 100%;
-    height: 20vh;
-    top: -50%;
+    height: 120px;
     background: linear-gradient(to bottom, transparent, #fff);
-    opacity: 0.8;
 }
 
-/* CONTENEDOR */
+/* CONTENIDO */
 .container {
     max-width: 500px;
     margin: auto;
@@ -84,15 +79,6 @@ body > * {
     color: #ffcc00;
 }
 
-.description a {
-    color: #ffcc00;
-    text-decoration: none;
-}
-
-.description a:hover {
-    color: #ffd700;
-}
-
 .close-button {
     width: 100%;
     padding: 12px;
@@ -101,10 +87,6 @@ body > * {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-}
-
-.close-button:hover {
-    background: #ffaa00;
 }
 </style>
 
@@ -116,88 +98,100 @@ body > * {
 <div class="lines" id="lines"></div>
 
 <div class="container">
-
     <div class="image-container">
         <img src="https://raw.githubusercontent.com/powermx/dl/master/vpspack.png">
     </div>
 
     <div class="description">
-        <strong class="highlight">VPSPack</strong> es un script administrativo para VPS basado en 
-        <strong class="highlight">Ubuntu</strong> y <strong class="highlight">Debian</strong>.
+        <strong class="highlight">VPSPack</strong> es un script para VPS basado en Ubuntu y Debian.
     </div>
 
     <div class="description">
-        Facilita la instalación de paquetes, usuarios, proxies y VPN.
+        Facilita instalación de servicios, proxies y VPN.
     </div>
 
     <div class="image-container">
         <img src="https://raw.githubusercontent.com/powermx/dl/master/vpspack_paquetes.png">
     </div>
 
-    <div class="description">
-        Contacto: <a href="https://t.me/PowerMX">@PowerMX</a>
-    </div>
-
     <button class="close-button" onclick="closeWebApp()">Cerrar</button>
-
 </div>
 
 <script>
 const container = document.getElementById("lines");
-const totalLines = 20;
+const totalLines = 25;
 
 let lines = [];
 
-/* CREAR LÍNEAS RANDOM */
-for (let i = 0; i < totalLines; i++) {
-    const line = document.createElement("div");
-    line.classList.add("line");
+/* CREAR LÍNEAS */
+function createLines() {
+    container.innerHTML = "";
+    lines = [];
 
-    const left = Math.random() * 100;
-    const speed = 2 + Math.random() * 6;
-    const delay = Math.random() * 5;
-    const drift = (Math.random() - 0.5) * 50;
+    const docHeight = document.body.scrollHeight;
+    container.style.height = docHeight + "px";
 
-    line.style.left = left + "%";
+    for (let i = 0; i < totalLines; i++) {
+        const line = document.createElement("div");
+        line.classList.add("line");
 
-    container.appendChild(line);
+        const left = Math.random() * 100;
+        const speed = 0.5 + Math.random() * 2;
+        const drift = (Math.random() - 0.5) * 80;
 
-    lines.push({
-        el: line,
-        speed,
-        delay,
-        drift,
-        progress: Math.random()
-    });
+        line.style.left = left + "%";
+        line.style.height = docHeight + "px";
+
+        container.appendChild(line);
+
+        lines.push({
+            el: line,
+            y: Math.random() * docHeight,
+            speed,
+            drift
+        });
+    }
 }
 
 /* ANIMACIÓN */
-function animateLines() {
-    lines.forEach(line => {
-        line.progress += 0.002 * line.speed;
+function animate() {
+    const docHeight = document.body.scrollHeight;
 
-        if (line.progress > 1.2) {
-            line.progress = -0.2;
+    lines.forEach(line => {
+        line.y += line.speed;
+
+        if (line.y > docHeight) {
+            line.y = -100;
             line.el.style.left = Math.random() * 100 + "%";
         }
 
-        const y = line.progress * window.innerHeight * 2;
-        const x = line.drift * Math.sin(line.progress * Math.PI);
+        const x = line.drift * Math.sin(line.y * 0.01);
 
-        line.el.style.transform = `translate(${x}px, ${y}px)`;
+        line.el.style.transform = `translate(${x}px, ${line.y}px)`;
     });
 
-    requestAnimationFrame(animateLines);
+    requestAnimationFrame(animate);
 }
 
-/* PARALLAX SCROLL */
+/* PARALLAX REAL */
 window.addEventListener("scroll", () => {
-    const scrollY = window.scrollY;
-    container.style.transform = `translateY(${scrollY * 0.2}px)`;
+    const scroll = window.scrollY;
+    container.style.transform = `translateY(${scroll * 0.15}px)`;
 });
 
+/* REGENERAR SI CRECE EL CONTENIDO */
+let lastHeight = document.body.scrollHeight;
+
+setInterval(() => {
+    if (document.body.scrollHeight !== lastHeight) {
+        lastHeight = document.body.scrollHeight;
+        createLines();
+    }
+}, 500);
+
 /* INIT */
-animateLines();
+createLines();
+animate();
 
 /* TELEGRAM */
 function closeWebApp() {
