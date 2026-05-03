@@ -6,16 +6,10 @@
 <title>VPSPack - Script Administrativo para VPS</title>
 
 <style>
-/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-/* BASE */
-html {
-    height: auto;
 }
 
 body {
@@ -28,54 +22,40 @@ body {
     padding: 20px;
 }
 
-/* CONTENIDO ENCIMA DEL FONDO */
+/* CONTENIDO */
 body > * {
     position: relative;
     z-index: 2;
 }
 
-/* FONDO ANIMADO (CORREGIDO) */
+/* FONDO */
 .lines {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 100%;
+    height: 200%;
     pointer-events: none;
     z-index: 1;
-}
-
-.lines .line {
-    position: absolute;
-    width: 1px;
-    height: 100%;
-    top: 0;
-    left: 50%;
-    background: rgba(255, 255, 255, 0.08);
     overflow: hidden;
 }
 
-.lines .line::after {
-    content: "";
+/* LÍNEAS */
+.line {
     position: absolute;
-    height: 20vh;
-    width: 100%;
-    top: -50%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0), #ffffff 80%);
-    animation: run 8s infinite cubic-bezier(0.4, 0.26, 0, 0.97);
+    width: 1px;
+    height: 120%;
+    background: rgba(255,255,255,0.08);
 }
 
-.lines .line:nth-child(1) { margin-left: -30%; }
-.lines .line:nth-child(2) { margin-left: 0%; }
-.lines .line:nth-child(3) { margin-left: 30%; }
-
-.lines .line:nth-child(1)::after { animation-delay: 1.5s; }
-.lines .line:nth-child(2)::after { animation-delay: 0s; }
-.lines .line:nth-child(3)::after { animation-delay: 2.5s; }
-
-@keyframes run {
-    0% { top: -50%; }
-    100% { top: 110%; }
+.line::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 20vh;
+    top: -50%;
+    background: linear-gradient(to bottom, transparent, #fff);
+    opacity: 0.8;
 }
 
 /* CONTENEDOR */
@@ -84,9 +64,7 @@ body > * {
     margin: auto;
 }
 
-/* IMÁGENES */
 .image-container {
-    width: 100%;
     margin: 15px 0;
 }
 
@@ -96,20 +74,16 @@ body > * {
     box-shadow: 0 0 20px rgba(255,255,255,0.2);
 }
 
-/* TEXTO */
 .description {
     margin-bottom: 20px;
-    font-size: 1.05em;
     line-height: 1.6;
-    text-align: justify;
-    color: #cccccc;
+    color: #ccc;
 }
 
 .highlight {
     color: #ffcc00;
 }
 
-/* LINKS */
 .description a {
     color: #ffcc00;
     text-decoration: none;
@@ -117,10 +91,8 @@ body > * {
 
 .description a:hover {
     color: #ffd700;
-    text-decoration: underline;
 }
 
-/* BOTÓN */
 .close-button {
     width: 100%;
     padding: 12px;
@@ -129,19 +101,10 @@ body > * {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 1em;
-    transition: 0.3s;
 }
 
 .close-button:hover {
     background: #ffaa00;
-}
-
-/* DARK MODE */
-@media (prefers-color-scheme: dark) {
-    body {
-        background: linear-gradient(to bottom, #000000, #222222);
-    }
 }
 </style>
 
@@ -150,37 +113,29 @@ body > * {
 
 <body>
 
-<!-- FONDO -->
-<div class="lines">
-    <div class="line"></div>
-    <div class="line"></div>
-    <div class="line"></div>
-</div>
+<div class="lines" id="lines"></div>
 
 <div class="container">
 
     <div class="image-container">
-        <img src="https://raw.githubusercontent.com/powermx/dl/master/vpspack.png" alt="VPSPack">
+        <img src="https://raw.githubusercontent.com/powermx/dl/master/vpspack.png">
     </div>
 
     <div class="description">
-        <strong class="highlight">VPSPack</strong> es un script administrativo para VPS o servidores dedicados 
-        basados en <strong class="highlight">Linux Ubuntu</strong> y <strong class="highlight">Debian</strong>, 
-        que utiliza <strong class="highlight">Bash</strong>, <strong class="highlight">Python</strong> y <strong class="highlight">Perl</strong>.
+        <strong class="highlight">VPSPack</strong> es un script administrativo para VPS basado en 
+        <strong class="highlight">Ubuntu</strong> y <strong class="highlight">Debian</strong>.
     </div>
 
     <div class="description">
-        Incluye herramientas para administración, instalación de paquetes y gestión de usuarios, 
-        facilitando la configuración de servicios como proxies y VPN.
+        Facilita la instalación de paquetes, usuarios, proxies y VPN.
     </div>
 
     <div class="image-container">
-        <img src="https://raw.githubusercontent.com/powermx/dl/master/vpspack_paquetes.png" alt="Paquetes VPSPack">
+        <img src="https://raw.githubusercontent.com/powermx/dl/master/vpspack_paquetes.png">
     </div>
 
     <div class="description">
-        Para más información, contacta con 
-        <a href="https://t.me/PowerMX">@PowerMX</a>.
+        Contacto: <a href="https://t.me/PowerMX">@PowerMX</a>
     </div>
 
     <button class="close-button" onclick="closeWebApp()">Cerrar</button>
@@ -188,15 +143,72 @@ body > * {
 </div>
 
 <script>
+const container = document.getElementById("lines");
+const totalLines = 20;
+
+let lines = [];
+
+/* CREAR LÍNEAS RANDOM */
+for (let i = 0; i < totalLines; i++) {
+    const line = document.createElement("div");
+    line.classList.add("line");
+
+    const left = Math.random() * 100;
+    const speed = 2 + Math.random() * 6;
+    const delay = Math.random() * 5;
+    const drift = (Math.random() - 0.5) * 50;
+
+    line.style.left = left + "%";
+
+    container.appendChild(line);
+
+    lines.push({
+        el: line,
+        speed,
+        delay,
+        drift,
+        progress: Math.random()
+    });
+}
+
+/* ANIMACIÓN */
+function animateLines() {
+    lines.forEach(line => {
+        line.progress += 0.002 * line.speed;
+
+        if (line.progress > 1.2) {
+            line.progress = -0.2;
+            line.el.style.left = Math.random() * 100 + "%";
+        }
+
+        const y = line.progress * window.innerHeight * 2;
+        const x = line.drift * Math.sin(line.progress * Math.PI);
+
+        line.el.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    requestAnimationFrame(animateLines);
+}
+
+/* PARALLAX SCROLL */
+window.addEventListener("scroll", () => {
+    const scrollY = window.scrollY;
+    container.style.transform = `translateY(${scrollY * 0.2}px)`;
+});
+
+/* INIT */
+animateLines();
+
+/* TELEGRAM */
 function closeWebApp() {
-    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+    if (window.Telegram?.WebApp) {
         Telegram.WebApp.close();
     } else {
-        alert('Esta función solo funciona dentro de Telegram.');
+        alert("Solo funciona dentro de Telegram");
     }
 }
 
-if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+if (window.Telegram?.WebApp) {
     Telegram.WebApp.ready();
     Telegram.WebApp.expand();
 }
